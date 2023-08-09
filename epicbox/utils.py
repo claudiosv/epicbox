@@ -14,7 +14,7 @@ from docker.errors import DockerException
 from docker.types import Ulimit
 from requests.adapters import HTTPAdapter
 from requests.exceptions import RequestException
-from requests.packages.urllib3.util.retry import Retry
+from urllib3.util.retry import Retry
 
 from . import config, exceptions
 
@@ -35,7 +35,7 @@ def get_docker_client(base_url=None, retry_read=config.DOCKER_MAX_READ_RETRIES,
         retries = Retry(total=config.DOCKER_MAX_TOTAL_RETRIES,
                         connect=config.DOCKER_MAX_CONNECT_RETRIES,
                         read=retry_read,
-                        method_whitelist=False,
+                        allowed_methods=None,
                         status_forcelist=retry_status_forcelist,
                         backoff_factor=config.DOCKER_BACKOFF_FACTOR,
                         raise_on_status=False)
