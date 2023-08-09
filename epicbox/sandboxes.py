@@ -7,7 +7,7 @@ from contextlib import contextmanager
 import structlog
 from docker.errors import APIError, DockerException, NotFound
 from requests.exceptions import RequestException
-
+from docker.models.containers import Container
 from . import config, exceptions, utils
 
 __all__ = ['create', 'start', 'destroy', 'run', 'working_directory']
@@ -24,7 +24,7 @@ class Sandbox:
     completion of the block.
     """
 
-    def __init__(self, id_, container, realtime_limit=None):
+    def __init__(self, id_, container: Container, realtime_limit=None):
         self.id_ = id_
         self.container = container
         self.realtime_limit = realtime_limit
@@ -40,7 +40,7 @@ class Sandbox:
                                                    self.container.short_id)
 
 
-def create(profile_name, command=None, files=None, limits=None, workdir=None):
+def create(profile_name, command=None, files=None, limits=None, workdir=None) -> Sandbox:
     """Create a new sandbox container without starting it.
 
     :param str profile_name: One of configured profile names.
@@ -225,6 +225,22 @@ def run(profile_name, command=None, files=None, stdin=None, limits=None,
     with create(profile_name, command=command, files=files, limits=limits,
                 workdir=workdir) as sandbox:
         return start(sandbox, stdin=stdin)
+
+def run_exec(sandbox: Sandbox, command=None):
+    """Run a command in an existing, running sandbox container and wait for it to finish
+    running.  Destroy the sandbox when it has finished running.
+
+    The arguments to this function is a combination of arguments passed
+    to `create` and `start` functions.
+
+    :return dict: The same as for `start`.
+
+    :raises DockerError: If an error occurred with the underlying
+                         docker system.
+    """
+    assert sandbox.container.status == "running"
+
+    return sandbox.container.exec_run(command)
 
 
 class _WorkingDirectory(object):
