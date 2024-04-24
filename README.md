@@ -1,9 +1,7 @@
-# epicbox
-[![Build Status](https://travis-ci.org/StepicOrg/epicbox.svg?branch=master)](https://travis-ci.org/StepicOrg/epicbox)
+# epicbox2
 
 A Python library to run untrusted code in secure, isolated [Docker](https://www.docker.com/)
-based sandboxes. It is used to automatically grade programming assignments
-on [Stepik.org](https://stepik.org/).
+based sandboxes.
 
 It allows to spawn a process inside one-time Docker container, send data
 to stdin, and obtain its exit code and stdout/stderr output.  It's very similar
@@ -122,13 +120,5 @@ with epicbox.working_directory() as workdir:
 ```
 
 ## Installation
-`epicbox` can be installed by running `pip install epicbox`. It's tested on Python 3.4+ and
+`epicbox` can be installed by running `pip install epicbox2`. It's tested on Python 3.4+ and
 Docker 1.12+.
-
-You can also check the [epicbox-images](https://github.com/StepicOrg/epicbox-images)
-repository that contains Docker images used to automatically grade programming
-assignments on [Stepik.org](https://stepik.org/).
-
-## Contributing
-Contributions are welcome, and they are greatly appreciated!
-More details can be found in [CONTRIBUTING](CONTRIBUTING.rst).
