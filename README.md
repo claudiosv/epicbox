@@ -38,6 +38,21 @@ The `result` value is:
  'oom_killed': False}
 ```
 
+Alternatively, you can also use the session context manager:
+```python
+from epicbox import create_session
+
+with create_session("python") as session:
+    command = (
+        "python3 -c 'import sys; "
+        'print("stdout data"); print("stderr data", file=sys.stderr)\''
+    )
+    result = session.exec(command)
+    # result contains stdout and stderr
+```
+
+The advantage of a session is that a container will start upon entering the context manager, and commands can be run via `exec`. The standard `run` commands will create and start a _new_ container for every command.
+
 ### Available Limit Options
 
 The available limit options and default values:

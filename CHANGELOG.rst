@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.0.0 (2024-04-24)
+
+* Updated dependencies
+* Fixed use of deprecated packages
+* Added `create_session` context manager with `exec` method
+
 1.1.0 (2019-07-29)
 ------------------
 
